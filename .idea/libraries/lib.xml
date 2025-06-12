@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Project/TurkishAirlines/build/web/WEB-INF/lib/webservices-extra.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Project/TurkishAirlines/build/web/WEB-INF/lib/hsqldb-2.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Project/TurkishAirlines/build/web/WEB-INF/lib/ucanaccess-4.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Project/TurkishAirlines/build/web/WEB-INF/lib/webservices-extra-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Project/TurkishAirlines/build/web/WEB-INF/lib/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Project/TurkishAirlines/build/web/WEB-INF/lib/gson-2.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Project/TurkishAirlines/build/web/WEB-INF/lib/commons-lang-2.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Project/TurkishAirlines/build/web/WEB-INF/lib/javax.mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Project/TurkishAirlines/build/web/WEB-INF/lib/webservices-tools.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Project/TurkishAirlines/build/web/WEB-INF/lib/jackcess-2.1.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Project/TurkishAirlines/build/web/WEB-INF/lib/activation.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Project/TurkishAirlines/build/web/WEB-INF/lib/webservices-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Project/TurkishAirlines/build/web/WEB-INF/lib/webservices-rt.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

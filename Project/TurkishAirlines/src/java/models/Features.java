@@ -14,7 +14,7 @@ package models;
 
 public class Features {
     
-    static public boolean isChanged = false;
+    public boolean isChanged = false;
        
     int type;
     

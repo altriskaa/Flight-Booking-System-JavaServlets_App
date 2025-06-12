@@ -52,7 +52,7 @@
 			  <th scope="row">1</th>
 			  <th>Seat Pitch</th>
                         
-                          <td <% if ((e.getNewSeatPitch() != e.getSeatPitch()) && (e.getIsChanged())){out.print("Class = 'bg-success text-white'");}%> >  <input type="number" name="seat_pitch_e" min="29" max="38" placeholder="29-38" required value ='${(features[0])["seatPitch"]}'> </td>
+              <td <% if ((e.getNewSeatPitch() != e.getSeatPitch()) && (e.getIsChanged())){out.print("Class = 'bg-success text-white'");}%> >  <input type="number" name="seat_pitch_e" min="29" max="38" placeholder="29-38" required value ='${(features[0])["seatPitch"]}'> </td>
 			  <td <% if ((b.getNewSeatPitch() != b.getSeatPitch()) && (e.getIsChanged())){out.print("Class = 'bg-success text-white'");}%> >  <input type="number" name="seat_pitch_b" min="30" max="87" placeholder="30-87" required value ='${(features[1])["seatPitch"]}'>	</td>			  
 			  <td <% if ((f.getNewSeatPitch() != f.getSeatPitch()) && (e.getIsChanged())){out.print("Class = 'bg-success text-white'");}%> >  <input type="number" name="seat_pitch_f" min="42" max="90" placeholder="42-90" required value ='${(features[2])["seatPitch"]}'>	</td>
 			 </tr>
@@ -243,19 +243,23 @@
 		</table>
                 
                 <%
-                   if (!Features.isChanged) 
-                   {
-                       out.println("<div style='text-align:center; margin:1%;'>");
-                       out.println("<button class='btn btn-primary flex-row-reverse' type='submit'>Submit</button>");
-                       out.println("</div>");
-                   }
-                   else
-                   {
-                        out.print("<div style='text-align:center;' class='bg-success text-white'>");
-                        out.print("Changes are already pending to be approved/disapproved by the Manager.");
-                        out.print("</div>");                       
-                   }                                
-                %>                                
+                    boolean anyChanged = e.getIsChanged() || b.getIsChanged() || f.getIsChanged();
+
+                    if (!anyChanged) {
+                %>
+                        <div style='text-align:center; margin:1%;'>
+                            <button class='btn btn-primary flex-row-reverse' type='submit'>Submit</button>
+                        </div>
+                <%
+                    } else {
+                %>
+                        <div style='text-align:center;' class='bg-success text-white'>
+                            Changes are already pending to be approved/disapproved by the Manager.
+                        </div>
+                <%
+                    }
+                %>
+
 		</form>
 			
 		

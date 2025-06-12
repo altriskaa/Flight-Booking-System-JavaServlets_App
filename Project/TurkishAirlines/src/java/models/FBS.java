@@ -115,99 +115,109 @@ public class FBS
         
         return customers;                                      
     }
-    
-    
-    
-    public ArrayList<Flight> getAllFlights(Connection con, ArrayList<Customer> customers, ArrayList<Features> features)
-    {
-        ArrayList<Flight> flights = new ArrayList();        
-        
-        try
-        {            
+
+
+
+    public ArrayList<Flight> getAllFlights(Connection con, ArrayList<Customer> customers, ArrayList<Features> features) {
+        ArrayList<Flight> flights = new ArrayList<>();
+        try {
             Statement stmt = con.createStatement();
             String sql = "SELECT * FROM Flights";
             ResultSet rs = stmt.executeQuery(sql);
 
-            
-            while (rs.next())
-            {
-                boolean isChanged = rs.getBoolean("isChanged");
-
-                String flightName = rs.getString("FlightName");
-
-                int totalSeats = rs.getInt("TotalSeats");
-                int currentSeats = rs.getInt("CurrentSeats");
-
-                String departureCity = rs.getString("DepartureCity");
-                String arrivalCity = rs.getString("ArrivalCity");
-
-                Date departureDate = rs.getDate("DepartureDate");
-                Date arrivalDate = rs.getDate("ArrivalDate");
-
-                int economySeats = rs.getInt("EconomySeats");
-                int businessSeats = rs.getInt("BusinessSeats");
-                int firstSeats = rs.getInt("FirstSeats");
-
-                int oldESeats = rs.getInt("OldESeats");
-                int oldBSeats = rs.getInt("OldBSeats");
-                int oldFSeats = rs.getInt("OldFSeats");
-                int oldTSeats = rs.getInt("OldTSeats");
-
-                Flight f = new Flight(isChanged, oldESeats, oldBSeats, oldFSeats, oldTSeats, flightName,null, totalSeats, currentSeats, departureCity, arrivalCity, departureDate, arrivalDate, economySeats, businessSeats, firstSeats);
-                flights.add(f);                                                
-              
-                
-                ArrayList<Seat> seats = new ArrayList();
-                
-                Statement stmt1 = con.createStatement();                
-                sql = "Select * from Seats where flightName = '" +flightName+ "'";
-                ResultSet r = stmt1.executeQuery(sql);
-                
-                while(r.next())
-                {
-                                        
-                    int seatnumber = r.getInt("SeatNumber");
-                    String cEmail = r.getString("CustomerEmail");
-                    String ftype = r.getString("FeatureType");
-                    
-                    Customer c = null;
-                    for(int j = 0; j < customers.size(); j++)
-                    {
-                        if (customers.get(j).getEmail().equals(cEmail))
-                        {    c = customers.get(j);
-                             break;
-                        }
-                    }
-                    
-                    Features fet = null;
-                    
-                    if(ftype.equals("Economy"))
-                        fet = features.get(0);
-                    if(ftype.equals("Business"))
-                        fet = features.get(1);
-                    if(ftype.equals("First Class"))
-                        fet = features.get(2);
-                                        
-                    Seat s = new Seat(seatnumber, f,fet,c);                    
-                    seats.add(s);
-                    
-                    if (c!=null)
-                        c.setSeat(s);
-                }
-                                
-                f.setSeats(seats);                                                
+            while (rs.next()) {
+                Flight flight = loadFlightFromResultSet(rs);
+                ArrayList<Seat> seats = loadSeatsForFlight(con, flight, customers, features);
+                flight.setSeats(seats);
+                flights.add(flight);
             }
 
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(FBS.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
         }
 
         return flights;
     }
-    
-    
+
+    private Flight loadFlightFromResultSet(ResultSet rs) throws SQLException {
+        boolean isChanged = rs.getBoolean("isChanged");
+        String flightName = rs.getString("FlightName");
+        int totalSeats = rs.getInt("TotalSeats");
+        int currentSeats = rs.getInt("CurrentSeats");
+        String departureCity = rs.getString("DepartureCity");
+        String arrivalCity = rs.getString("ArrivalCity");
+        Date departureDate = rs.getDate("DepartureDate");
+        Date arrivalDate = rs.getDate("ArrivalDate");
+        int economySeats = rs.getInt("EconomySeats");
+        int businessSeats = rs.getInt("BusinessSeats");
+        int firstSeats = rs.getInt("FirstSeats");
+        int oldESeats = rs.getInt("OldESeats");
+        int oldBSeats = rs.getInt("OldBSeats");
+        int oldFSeats = rs.getInt("OldFSeats");
+        int oldTSeats = rs.getInt("OldTSeats");
+
+        return new Flight(isChanged, oldESeats, oldBSeats, oldFSeats, oldTSeats, flightName, null,
+                totalSeats, currentSeats, departureCity, arrivalCity, departureDate, arrivalDate,
+                economySeats, businessSeats, firstSeats);
+    }
+
+    private ArrayList<Seat> loadSeatsForFlight(Connection con, Flight flight, ArrayList<Customer> customers, ArrayList<Features> features) throws SQLException {
+        ArrayList<Seat> seats = new ArrayList<>();
+        String sql = "SELECT * FROM Seats WHERE flightName = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, flight.getFlightName());
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            int seatNumber = rs.getInt("SeatNumber");
+            String customerEmail = rs.getString("CustomerEmail");
+            String featureType = rs.getString("FeatureType");
+
+            Customer customer = findCustomerByEmail(customers, customerEmail);
+            Features feature = getFeatureByType(featureType, features);
+
+            Seat seat = new Seat(seatNumber, flight, feature, customer);
+            seats.add(seat);
+
+            if (customer != null) {
+                customer.setSeat(seat);
+            }
+        }
+
+        rs.close();
+        stmt.close();
+        return seats;
+    }
+
+    private Customer findCustomerByEmail(ArrayList<Customer> customers, String email) {
+        for (Customer customer : customers) {
+            if (customer.getEmail().equals(email)) {
+                return customer;
+            }
+        }
+        return null;
+    }
+
+    private Features getFeatureByType(String type, ArrayList<Features> features) {
+        switch (type) {
+            case "Economy":
+                return features.get(0);
+            case "Business":
+                return features.get(1);
+            case "First Class":
+                return features.get(2);
+            default:
+                return null;
+        }
+    }
+
+
+
+
+
+
+
     //--------------Methods Exposed to Web Services---------------------//
     public static int getPrice(String origin, String destination)
     {

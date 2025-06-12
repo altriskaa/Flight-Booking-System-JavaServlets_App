@@ -29,7 +29,8 @@ public class DisapproveFeatures extends HttpServlet {
                                 
         for (int i = 0; i < 3; i++)
         {
-
+            Features feature = f.get(i);
+            
             (f.get(i)).setSeatPitch( f.get(i).getNewSeatPitch() );
             (f.get(i)).setSeatWidth( f.get(i).getNewSeatWidth() );            
             (f.get(i)).setVideoType( f.get(i).getNewVideoType() );            
@@ -49,9 +50,10 @@ public class DisapproveFeatures extends HttpServlet {
             (f.get(i)).setNewWifi( null);
             (f.get(i)).setNewSpecialFood( null);
                         
+            feature.setIsChanged(false);
+
         }
 
-        Features.isChanged = false;
         
         response.sendRedirect("ApproveFeatures.jsp");
     }

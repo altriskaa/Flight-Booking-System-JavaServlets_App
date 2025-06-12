@@ -32,6 +32,7 @@ public class ChangeFeatures extends HttpServlet {
         
         for (int i = 0; i < 3; i++)
         {
+            Features feature = f.get(i);
             //Saving old values
             (f.get(i)).setNewSeatPitch( f.get(i).getSeatPitch() );
             (f.get(i)).setNewSeatWidth( f.get(i).getSeatWidth() );            
@@ -46,7 +47,10 @@ public class ChangeFeatures extends HttpServlet {
             (f.get(i)).setVideoType( (request.getParameter("video_" + s[i]))  );
             (f.get(i)).setPowerType( (request.getParameter("power_" + s[i]))  );
             (f.get(i)).setSeatType ( (request.getParameter("seat_type_" + s[i]))  );
-            (f.get(i)).setPrice ( Integer.parseInt(request.getParameter("price_" + s[i]))  );            
+            (f.get(i)).setPrice ( Integer.parseInt(request.getParameter("price_" + s[i]))  );
+
+            feature.setIsChanged(true);
+           
             
         }
         
@@ -59,7 +63,8 @@ public class ChangeFeatures extends HttpServlet {
         f.get(2).setNewSpecialFood(f.get(2).getSpecialFood());
         f.get(2).setSpecialFood( request.getParameter("special_food_f"));       
         
-        Features.isChanged = true;
+        f.get(1).setIsChanged(true);
+        f.get(2).setIsChanged(true);
         
         response.sendRedirect("ChangeFeatures.jsp");
     }

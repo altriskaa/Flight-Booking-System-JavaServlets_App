@@ -234,24 +234,29 @@
 			</tbody>
 		</table>
                                        
+
                 <%
-                    if (Features.isChanged)
-                    {
-                        out.print("<div style='text-align:right;'>");
-                        out.print("<form action='ApproveFeatures.do' method='post'>");
-                        out.print("<button class='btn btn-primary flex-row-reverse' id='approve_button' type='submit'>Approve</button>                    </form>                </div>                    ");
-                    
-                        out.print("		<div style='text-align:right; margin-top:1%;'>");
-                        out.print("                    <form action='DisapproveFeatures.do' method='post'>");
-                        out.print("                        <button class='btn btn-primary flex-row-reverse' id='reject_button'  style='margin-left:2%;' type='submit'>Reject</button>			                    </form>                </div>		");
+                    if (e.getIsChanged() || b.getIsChanged() || f.getIsChanged()) {
+                %>
+                        <div style='text-align:right;'>
+                            <form action='ApproveFeatures.do' method='post'>
+                                <button class='btn btn-primary flex-row-reverse' id='approve_button' type='submit'>Approve</button>
+                            </form>
+                        </div>
+                        <div style='text-align:right; margin-top:1%;'>
+                            <form action='DisapproveFeatures.do' method='post'>
+                                <button class='btn btn-primary flex-row-reverse' id='reject_button' style='margin-left:2%;' type='submit'>Reject</button>
+                            </form>
+                        </div>
+                <%
+                    } else {
+                %>
+                        <div style='text-align:center;' class='bg-success text-white'>
+                            No changes to be approved/disapproved.
+                        </div>
+                <%
                     }
-                    else
-                    {
-                        out.print("<div style='text-align:center;' class='bg-success text-white'>");
-                        out.print("No changes to be approved/disapproved.");
-                        out.print("</div>");
-                    }
-                %>                        
+                %>
                                         
 								
 		</section>

@@ -26,10 +26,12 @@ public class ApproveFeatures extends HttpServlet {
             throws ServletException, IOException {
 
         ArrayList<Features> f = (ArrayList<Features>) (getServletContext().getAttribute("features"));
-        
+
         
         for (int i = 0; i < 3; i++)
         {
+            Features feature = f.get(i);
+
             (f.get(i)).setNewSeatPitch( 0);
             (f.get(i)).setNewSeatWidth( 0);            
             (f.get(i)).setNewVideoType( null);            
@@ -38,9 +40,10 @@ public class ApproveFeatures extends HttpServlet {
             (f.get(i)).setNewPrice( 0);
             (f.get(i)).setNewWifi( null);
             (f.get(i)).setNewSpecialFood( null);
+            
+            feature.setIsChanged(false);
         }
 
-        Features.isChanged = false;
 
         response.sendRedirect("ApproveFeatures.jsp");
     }
