@@ -38,33 +38,33 @@ public class Flight {
     int oldTSeats;
     
     public boolean isChanged;
-    
-    public Flight(boolean c, int oldE, int oldB, int oldF, int oldT,  String flightName, ArrayList<Seat> seats, int totalSeats, int currentSeats, String departureCity, String arrivalCity, Date departureDate, Date arrivalDate, int economySeats, int bSeats, int firstSeats)            
-    {
-        isChanged = c;
-        
-        oldESeats = oldE;
-        oldBSeats = oldB;
-        oldFSeats = oldF;
-        oldTSeats = oldT;
-        
+
+    // [REFACTOR (id: RC70)] 18/06/25 - "Constructor has 16 parameters, which is greater than 7 authorized. Methods should not have too many parameters java:S107" [M]
+    public Flight(String flightName, boolean isChanged, FlightSeatHistory history,
+                  FlightSeatInfo seatInfo, FlightRouteInfo routeInfo) {
+
         this.flightName = flightName;
+        this.isChanged = isChanged;
 
-        this.seats = seats;
-        this.totalSeats = totalSeats;
-        this.currentSeats = currentSeats;
+        this.oldESeats = history.oldESeats;
+        this.oldBSeats = history.oldBSeats;
+        this.oldFSeats = history.oldFSeats;
+        this.oldTSeats = history.oldTSeats;
 
-        this.departureCity = departureCity;
-        this.arrivalCity = arrivalCity;
+        this.seats = seatInfo.seats;
+        this.totalSeats = seatInfo.totalSeats;
+        this.currentSeats = seatInfo.currentSeats;
+        this.economySeats = seatInfo.economySeats;
+        this.businessSeats = seatInfo.businessSeats;
+        this.firstSeats = seatInfo.firstSeats;
 
-        this.departureDate = departureDate;
-        this.arrivalDate = arrivalDate;
-
-        this.economySeats = economySeats;
-        this.businessSeats = bSeats;
-        this.firstSeats = firstSeats;        
+        this.departureCity = routeInfo.departureCity;
+        this.arrivalCity = routeInfo.arrivalCity;
+        this.departureDate = routeInfo.departureDate;
+        this.arrivalDate = routeInfo.arrivalDate;
     }
-    
+
+
     public boolean isEmpty()
     {
         return (totalSeats==currentSeats);
@@ -205,3 +205,4 @@ public class Flight {
         seats = s;
     }
 }
+

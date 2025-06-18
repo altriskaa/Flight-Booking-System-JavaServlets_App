@@ -140,6 +140,8 @@ public class FBS
         return flights;
     }
 
+    // [REFACTOR (id: RC1)] 12/06/25 - "Refactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed. java:S3776" [A]
+    // [REFACTOR (id: RC70)] 18/06/25 - "Constructor has 16 parameters, which is greater than 7 authorized. Methods should not have too many parameters java:S107" [M]
     private Flight loadFlightFromResultSet(ResultSet rs) throws SQLException {
         boolean isChanged = rs.getBoolean("isChanged");
         String flightName = rs.getString("FlightName");
@@ -157,9 +159,12 @@ public class FBS
         int oldFSeats = rs.getInt("OldFSeats");
         int oldTSeats = rs.getInt("OldTSeats");
 
-        return new Flight(isChanged, oldESeats, oldBSeats, oldFSeats, oldTSeats, flightName, null,
-                totalSeats, currentSeats, departureCity, arrivalCity, departureDate, arrivalDate,
-                economySeats, businessSeats, firstSeats);
+
+        FlightSeatHistory history = new FlightSeatHistory(oldESeats, oldBSeats, oldFSeats, oldTSeats);
+        FlightSeatInfo seatInfo = new FlightSeatInfo(new ArrayList<>(), totalSeats, currentSeats, economySeats, businessSeats, firstSeats);
+        FlightRouteInfo routeInfo = new FlightRouteInfo(departureCity, arrivalCity, departureDate, arrivalDate);
+
+        return new Flight(flightName, isChanged, history, seatInfo, routeInfo);
     }
 
     private ArrayList<Seat> loadSeatsForFlight(Connection con, Flight flight, ArrayList<Customer> customers, ArrayList<Features> features) throws SQLException {
@@ -390,3 +395,5 @@ public class FBS
         return list;
     }
 }
+
+
