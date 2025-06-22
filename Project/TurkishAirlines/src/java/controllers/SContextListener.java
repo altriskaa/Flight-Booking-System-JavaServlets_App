@@ -1,3 +1,6 @@
+package controllers;
+
+
 import java.io.File;
 import java.net.URISyntaxException;
 import models.Customer;
@@ -14,7 +17,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
-
 
 public class SContextListener implements ServletContextListener 
 {

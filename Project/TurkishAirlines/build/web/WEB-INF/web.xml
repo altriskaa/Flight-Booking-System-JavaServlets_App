@@ -22,7 +22,7 @@
     </filter-mapping>
     <listener>
         <description>ServletContextListener</description>
-        <listener-class>SContextListener</listener-class>
+        <listener-class>controllers.SContextListener</listener-class>
     </listener>
     <listener>
         <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
@@ -53,7 +53,7 @@
     </servlet>
     <servlet>
         <servlet-name>LoginManager</servlet-name>
-        <servlet-class>LoginManager</servlet-class>
+        <servlet-class>controllers.LoginManager</servlet-class>
         <security-role-ref>
             <description/>
             <role-name>Admin</role-name>
@@ -72,11 +72,11 @@
     </servlet>
     <servlet>
         <servlet-name>LogoutManager</servlet-name>
-        <servlet-class>LogoutManager</servlet-class>
+        <servlet-class>controllers.LogoutManager</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CustomerManager</servlet-name>
-        <servlet-class>CustomerManager</servlet-class>
+        <servlet-class>controllers.CustomerManager</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CurrentBooking</servlet-name>
@@ -96,7 +96,7 @@
     </servlet>
     <servlet>
         <servlet-name>OriginCompleter</servlet-name>
-        <servlet-class>OriginCompleter</servlet-class>
+        <servlet-class>controllers.OriginCompleter</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PriceAndSeats</servlet-name>
