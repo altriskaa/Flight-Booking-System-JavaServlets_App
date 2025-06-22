@@ -14,9 +14,9 @@ public abstract class Person {
  
     String name;
     String email;
-    
-    
-    public Person(String f,String e)
+
+    // [M] [REFACTOR (java:S5993)] 22/06/25 - "Change the visibility of this constructor to "protected"."
+    protected Person(String f,String e)
     {
         name = f;
         email = e;
